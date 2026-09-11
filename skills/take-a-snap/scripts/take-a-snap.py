@@ -45,8 +45,10 @@ def load_state():
 
 def save_state(state):
     os.makedirs(os.path.dirname(STATE_PATH), exist_ok=True)
-    with open(STATE_PATH, "w") as f:
+    tmp = f"{STATE_PATH}.{os.getpid()}.tmp"
+    with open(tmp, "w") as f:
         json.dump(state, f)
+    os.replace(tmp, STATE_PATH)  # atomic: readers never see a partial file
 
 
 def main():
