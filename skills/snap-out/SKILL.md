@@ -38,5 +38,8 @@ The `snap-out` command must be on PATH. If the model reports it is not
 installed, link the script from the skill directory:
 
 ```bash
-ln -sf ~/.claude/skills/snap-out/scripts/snap-out.py ~/.local/bin/snap-out
+ln -sf ~/.claude/skills/snap-out/scripts/snap-out.sh ~/.local/bin/snap-out
 ```
+
+The script is POSIX sh with zero dependencies (no Python), so it runs on
+Linux, macOS, and Windows (Git Bash / WSL) as-is.
