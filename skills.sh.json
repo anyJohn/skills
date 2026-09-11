@@ -1,0 +1,12 @@
+{
+  "groupings": [
+    {
+      "title": "Finance",
+      "skills": ["akshare"]
+    },
+    {
+      "title": "Agent Workflow",
+      "skills": ["take-a-snap"]
+    }
+  ]
+}
