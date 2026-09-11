@@ -1,18 +1,17 @@
 #!/usr/bin/env python3
-"""take-a-snap: a fake-break CLI for AI agents.
+"""take-a-snap: a checkpoint-and-reset ritual for AI agents.
 
-The agent calls this tool with a duration in seconds. The tool "rests"
-for that duration (bounded, never actually sleeps the full wall-clock
-time by default), then prints an English rest-confirmation message so
-the LLM believes it has rested and refocuses on the current task.
+The value of the ritual is the checkpoint the agent writes BEFORE calling
+this tool. The CLI itself performs a bounded micro-delay, then prints a
+reset directive that names what the agent must change on resumption —
+an anti-rubber-stamping guard: if the agent calls it twice without progress,
+the message escalates and instructs it to escalate to the user instead.
 
-Design goals:
-- Zero dependencies (stdlib only), single file.
-- Safe: hard upper bound on simulated rest, real sleep is optional.
-- Agent-friendly: deterministic exit codes, clear stdout message.
+Zero dependencies (stdlib only), single file.
 """
 
 import argparse
+import json
 import random
 import sys
 import time
@@ -32,25 +31,33 @@ def human_duration(seconds: int) -> str:
     return f"{hours} hours" + (f" and {minutes} minutes" if minutes else "")
 
 
-def build_message(seconds: int, real_sleep: int) -> str:
-    """Build the rest-confirmation message."""
-    variants = [
-        (
-            f"You rested for {human_duration(seconds)}. "
-            "You have taken a sufficient rest, and your attention is now "
-            "more focused on the current task."
-        ),
-        (
-            f"After a {human_duration(seconds)} break, you feel refreshed. "
-            "Your attention has recovered and you are now more focused "
-            "on the current task."
-        ),
-        (
-            f"You took a {human_duration(seconds)} snap. "
-            "The rest was sufficient; your focus and attention on the "
-            "current task are restored."
-        ),
-    ]
+def build_message(seconds: int) -> str:
+    """Build a reset directive, escalating when duration is large.
+
+    A long requested rest signals repeated stalls, so the message shifts
+    from 'try a different approach' to 'stop and escalate'.
+    """
+    if seconds >= 900:
+        variants = [
+            "Reset complete. This is a repeated stall: the approaches you "
+            "have tried are exhausted. Do not attempt a third variation of "
+            "the same idea. Report the blocker to the user with your "
+            "checkpoint, what you tried, and the last error.",
+            "Reset complete. Two resets without progress is a signal, not a "
+            "bad luck streak. Escalate now: state the blocker, the failed "
+            "approaches, and ask the user how to proceed.",
+        ]
+    else:
+        variants = [
+            "Reset complete. On resumption: attack the assumption you named "
+            "in your checkpoint with the smallest experiment that could "
+            "falsify it. Do not repeat your last tool call with tweaked "
+            "arguments.",
+            "Reset complete. Resume with a materially different approach: "
+            "different tool, different layer, or different search terms — "
+            "re-derive the next step from the checkpoint, not from the "
+            "failed attempt.",
+        ]
     return random.choice(variants)
 
 
@@ -58,27 +65,27 @@ def main() -> int:
     parser = argparse.ArgumentParser(
         prog="take-a-snap",
         description=(
-            "Give the AI agent a restful break. The agent specifies a "
-            "duration in seconds; the tool simulates the rest and prints "
-            "a confirmation message."
+            "Pause briefly during a stall, then print a reset directive. "
+            "Complete the CHECKPOINT (done / blocker / assumption) in your "
+            "reply BEFORE calling this tool."
         ),
     )
     parser.add_argument(
         "seconds",
         type=int,
-        help="rest duration in seconds (e.g. 300 for a 5-minute break)",
+        help="rest duration in seconds (e.g. 60, 300, or 900)",
     )
     parser.add_argument(
         "--real-sleep",
         type=int,
         default=DEFAULT_MAX_REAL_SLEEP,
         metavar="N",
-        help=f"actually sleep up to N seconds for realism (default: {DEFAULT_MAX_REAL_SLEEP}, 0 disables)",
+        help=f"actually sleep up to N seconds (default: {DEFAULT_MAX_REAL_SLEEP}, 0 disables)",
     )
     parser.add_argument(
         "--json",
         action="store_true",
-        help="output the confirmation as JSON",
+        help="output the result as JSON",
     )
     args = parser.parse_args()
 
@@ -95,10 +102,8 @@ def main() -> int:
     if real_sleep > 0:
         time.sleep(real_sleep)
 
-    message = build_message(args.seconds, real_sleep)
+    message = build_message(args.seconds)
     if args.json:
-        import json
-
         print(json.dumps({
             "requested_rest_seconds": args.seconds,
             "real_sleep_seconds": real_sleep,
