@@ -1,5 +1,5 @@
 ---
-name: take-a-rest
+name: take-a-snap
 description: Use when working on a long task and focus degrades — take a simulated rest via take-a-snap CLI, then continue with renewed attention.
 ---
 
