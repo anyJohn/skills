@@ -1,14 +1,14 @@
 ---
-name: take-a-snap
-description: Use when a task stalls — repeated tool calls with no progress, or the same fix tried twice. Snap out of it via the take-a-snap CLI, which tracks consecutive snaps and forces escalation instead of endless retries.
+name: snap-out
+description: Use when a task stalls — repeated tool calls with no progress, or the same fix tried twice. Snap out of it via the snap-out CLI, which tracks consecutive snaps and forces escalation instead of endless retries.
 ---
 
-# take-a-snap
+# snap-out
 
 Snap out of it. When you catch yourself going in circles, run:
 
 ```bash
-take-a-snap          # records one snap, prints a reset directive
+snap-out            # records one snap, prints a reset directive
 ```
 
 The directive escalates with each consecutive snap (state is tracked on
@@ -26,7 +26,7 @@ When you make verifiable progress (a test passes, an error disappears,
 the user confirms), record it:
 
 ```bash
-take-a-snap --done
+snap-out --done
 ```
 
 Never run `--done` unless the progress is real and verified — the counter

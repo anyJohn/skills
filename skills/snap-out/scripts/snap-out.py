@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""take-a-snap: snap out of it — a stall circuit breaker for agents.
+"""snap-out: snap out of it — a stall circuit breaker for agents.
 
 Each call records one "snap" in a state file on disk and prints a reset
 directive that escalates with the consecutive-snap count. The state lives
@@ -53,8 +53,8 @@ def save_state(state):
 
 def main():
     parser = argparse.ArgumentParser(
-        prog="take-a-snap", description=__doc__,
-        epilog="Mark verified progress with: take-a-snap --done",
+        prog="snap-out", description=__doc__,
+        epilog="Mark verified progress with: snap-out --done",
     )
     parser.add_argument("--done", action="store_true",
                         help="record real progress; resets the snap count")
