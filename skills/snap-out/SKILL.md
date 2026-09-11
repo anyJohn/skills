@@ -31,3 +31,12 @@ snap-out --done
 
 Never run `--done` unless the progress is real and verified — the counter
 only works if it is honest.
+
+## Install
+
+The `snap-out` command must be on PATH. If the model reports it is not
+installed, link the script from the skill directory:
+
+```bash
+ln -sf ~/.claude/skills/snap-out/scripts/snap-out.py ~/.local/bin/snap-out
+```
