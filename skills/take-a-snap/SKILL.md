@@ -1,19 +1,33 @@
 ---
 name: take-a-snap
-description: Use when a task stalls — repeated tool calls with no progress, or the same fix tried twice. Take a real short nap, then resume with a different approach instead of retrying.
+description: Use when a task stalls — repeated tool calls with no progress, or the same fix tried twice. Snap out of it via the take-a-snap CLI, which tracks consecutive snaps and forces escalation instead of endless retries.
 ---
 
 # take-a-snap
 
-When you are going in circles, stop and actually pause:
+Snap out of it. When you catch yourself going in circles, run:
 
 ```bash
-take-a-snap 90    # seconds; 60–180 is a good range, hard cap 600
+take-a-snap          # records one snap, prints a reset directive
 ```
 
-The command really sleeps that long. Do not use it as a no-op.
+The directive escalates with each consecutive snap (state is tracked on
+disk, outside your context — do not try to reason it away):
 
-Before napping, write one line stating the assumption you will re-examine
-afterwards. After waking, try a materially different approach — never the
-same call with tweaked arguments. If a second nap doesn't unblock you,
-report the blocker to the user instead of napping again.
+1. **Snap 1** — name the blocker and the earliest unverified assumption,
+   then run the smallest experiment that could falsify it.
+2. **Snap 2** — switch layers: different tool, different abstraction.
+   The previous approach is off the table.
+3. **Snap 3** — the CLI exits nonzero. Stop and report the blocker, your
+   failed approaches, and the last error to the user. Do not resume
+   without new input from them.
+
+When you make verifiable progress (a test passes, an error disappears,
+the user confirms), record it:
+
+```bash
+take-a-snap --done
+```
+
+Never run `--done` unless the progress is real and verified — the counter
+only works if it is honest.
