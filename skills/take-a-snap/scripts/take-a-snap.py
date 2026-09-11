@@ -9,18 +9,13 @@ report to the user. A real progress mark (`--done`) resets the count.
 """
 
 import argparse
-import hashlib
 import json
 import os
 import sys
 import time
 
-# Agent-agnostic state: one file per project, keyed by cwd hash.
-_PROJECT_KEY = hashlib.sha1(os.getcwd().encode()).hexdigest()[:12]
-STATE_PATH = os.path.join(
-    os.environ.get("XDG_STATE_HOME", os.path.expanduser("~/.local/state")),
-    "take-a-snap", f"{_PROJECT_KEY}.json",
-)
+# State lives next to this script, inside the skill directory.
+STATE_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "state.json")
 STATE_TTL = 3600  # stale state expires after 1 hour
 ESCALATE_AT = 3
 
