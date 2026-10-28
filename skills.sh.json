@@ -2,11 +2,21 @@
   "groupings": [
     {
       "title": "Finance",
-      "skills": ["akshare"]
+      "skills": [
+        "akshare"
+      ]
     },
     {
       "title": "Agent Workflow",
-      "skills": ["take-a-snap"]
+      "skills": [
+        "take-a-snap"
+      ]
+    },
+    {
+      "title": "Writing",
+      "skills": [
+        "write-like-human-zh"
+      ]
     }
   ]
 }
