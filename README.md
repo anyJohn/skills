@@ -22,6 +22,8 @@ npx skills add anyJohn/skills --skill write-like-human-zh
 | [akshare](skills/akshare/) | Finance | Get Chinese financial data (A-share, funds, futures, bonds) via AKShare |
 | [write-like-human-zh](skills/write-like-human-zh/) | Writing | Humanize Chinese writing: remove AI tone, stiff phrasing, and translationese. 中文写作去 AI 腔：元话语、结构宣告、评价包装、坑叙事，以及翻译腔与连接词堆积的改写规则 |
 
+skills.sh pages: [akshare](https://skills.sh/anyJohn/skills/akshare) · [write-like-human-zh](https://skills.sh/anyJohn/skills/write-like-human-zh)
+
 ## License
 
 MIT
