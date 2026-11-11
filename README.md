@@ -1,6 +1,8 @@
 # anyJohn Skills
 
-AI agent skills curated by [anyJohn](https://github.com/anyJohn). Installable via [skills.sh](https://skills.sh).
+[![skills.sh](https://skills.sh/b/anyJohn/skills)](https://skills.sh/anyJohn/skills)
+
+AI agent skills curated by [anyJohn](https://github.com/anyJohn). Installable via [skills.sh](https://skills.sh). Repo page: [skills.sh/anyJohn/skills](https://skills.sh/anyJohn/skills).
 
 ```bash
 npx skills add anyJohn/skills
