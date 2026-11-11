@@ -1,9 +1,11 @@
 ---
 name: write-like-human-zh
 description: |
+  Humanize Chinese writing: remove AI tone, rewrite stiff or machine-like Chinese prose. Use for drafting and polishing blogs, technical docs, weekly reports, emails, and self-introductions.
   让中文文字读起来像人写的：去除 AI 腔，改写"一眼 AI"的段落，也用于博客、技术文档、周报、邮件、自我介绍的起草与润色。
   当用户说"去 AI 味""润色一下""这段话像 AI 写的""写自然点""帮我改改这段文字"，或要求写任何给人看的中文长文本时使用本技能。
   即使没有提到 AI，只要产出是给人读的文字而不是代码，交付前也先用本技能过一遍。
+license: MIT
 metadata:
   source: anyJohn
 ---

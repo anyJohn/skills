@@ -1,13 +1,17 @@
 {
+  "$schema": "https://skills.sh/schemas/skills.sh.schema.json",
+  "notGrouped": "bottom",
   "groupings": [
     {
       "title": "Finance",
+      "description": "Skills for Chinese financial market data.",
       "skills": [
         "akshare"
       ]
     },
     {
       "title": "Writing",
+      "description": "Skills for human-sounding Chinese writing.",
       "skills": [
         "write-like-human-zh"
       ]
